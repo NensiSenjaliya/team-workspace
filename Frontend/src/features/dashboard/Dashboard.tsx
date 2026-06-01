@@ -115,7 +115,7 @@ export function Dashboard({ data, user }) {
       <div className="lower-grid">
         {isWorkspaceAdmin ? (
           <MembersPanel
-            inviteMember={(payload) => runAction(() => data.inviteMember(payload))}
+            inviteMember={data.inviteMember}
             members={data.members}
             removeMember={(memberId) => runAction(() => data.removeMember(memberId))}
           />

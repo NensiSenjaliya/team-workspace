@@ -10,6 +10,8 @@ import { displayName } from '../../lib/formatters';
 
 export function MembersPanel({ inviteMember, members, removeMember }) {
   const [showMemberForm, setShowMemberForm] = useState(false);
+  const [error, setError] = useState('');
+  const [saving, setSaving] = useState(false);
   const [form, setForm] = useState({
     username: '',
     email: '',
@@ -18,13 +20,27 @@ export function MembersPanel({ inviteMember, members, removeMember }) {
 
   const submit = async (event) => {
     event.preventDefault();
-    await inviteMember(form);
-    setForm({
-      username: '',
-      email: '',
-      password: ''
-    });
-    setShowMemberForm(false);
+    setError('');
+
+    if (form.password && form.password.length < 8) {
+      setError('Password must be at least 8 characters.');
+      return;
+    }
+
+    setSaving(true);
+    try {
+      await inviteMember(form);
+      setForm({
+        username: '',
+        email: '',
+        password: ''
+      });
+      setShowMemberForm(false);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -46,7 +62,10 @@ export function MembersPanel({ inviteMember, members, removeMember }) {
       </div>
 
       {showMemberForm ? (
-        <Modal title="Add member" onClose={() => setShowMemberForm(false)}>
+        <Modal title="Add member" onClose={() => {
+          setError('');
+          setShowMemberForm(false);
+        }}>
           <form className="member-create-form" onSubmit={submit}>
             <Field label="Username">
               <input
@@ -72,8 +91,9 @@ export function MembersPanel({ inviteMember, members, removeMember }) {
                 minLength={8}
               />
             </Field>
-            <Button type="submit" variant="secondary">
-              <UserPlus size={16} /> Create member
+            {error ? <div className="form-error">{error}</div> : null}
+            <Button type="submit" variant="secondary" disabled={saving}>
+              <UserPlus size={16} /> {saving ? 'Creating...' : 'Create member'}
             </Button>
           </form>
         </Modal>

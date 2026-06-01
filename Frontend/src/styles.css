@@ -527,6 +527,19 @@ textarea:focus {
   font-size: 0.82rem;
 }
 
+.sidebar-role {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: 5px;
+  border-radius: 999px;
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+  padding: 3px 8px;
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 900;
+}
+
 .avatar {
   display: inline-grid;
   width: 34px;
@@ -997,6 +1010,12 @@ textarea:focus {
 .activity-list {
   display: grid;
   gap: 10px;
+}
+
+#members .member-list {
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 6px;
 }
 
 #activity .activity-list {

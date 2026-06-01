@@ -3,7 +3,9 @@ import { Bell, LogOut, PanelsTopLeft, Search } from 'lucide-react';
 import { Avatar } from '../ui/Avatar';
 import { Button } from '../ui/Button';
 
-export function AppShell({ children, user, onLogout }) {
+export function AppShell({ children, user, role, onLogout }) {
+  const roleLabel = role ? role[0].toUpperCase() + role.slice(1) : 'Signed in';
+
   return (
     <div className="app-shell">
       <aside className="sidebar">
@@ -29,6 +31,7 @@ export function AppShell({ children, user, onLogout }) {
           <div>
             <strong>{user?.first_name || user?.username}</strong>
             <span>{user?.email || 'Signed in'}</span>
+            <em className="sidebar-role">{roleLabel}</em>
           </div>
         </div>
       </aside>

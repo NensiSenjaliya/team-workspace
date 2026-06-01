@@ -6,6 +6,7 @@ from .serializers import ActivityLogSerializer
 
 class ActivityLogViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ActivityLogSerializer
+    pagination_class = None
     filterset_fields = ['workspace', 'task', 'action', 'user']
     ordering_fields = ['created_at']
     ordering = ['-created_at']
